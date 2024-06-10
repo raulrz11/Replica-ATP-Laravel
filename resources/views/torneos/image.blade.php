@@ -9,7 +9,7 @@
         @include('flash::message')
     </div>
     @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible">
+        <div class="alert alert-danger alert-dismissible" style="margin: 0">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <ul>
                 @foreach ($errors->all() as $error)
@@ -17,35 +17,28 @@
                 @endforeach
             </ul>
         </div>
-        <br/>
     @endif
 
-    <dl class="row" style="padding-left: 20px">
-        <dt class="col-sm-2" style="color: coral">ID:</dt>
-        <dd class="col-sm-10">{{$torneo->id}}</dd>
-        <dt class="col-sm-2" style="color: coral">Nombre:</dt>
-        <dd class="col-sm-10">{{$torneo->nombre}}</dd>
-        <dt class="col-sm-2" style="color: coral">Imagen:</dt>
-        <dd class="col-sm-10">
+    <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding: 20px">
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #007bff; border-radius: 20px; padding: 20px">
             @if($torneo->imagen != Torneo::$IMAGE_DEFAULT)
-                <img alt="Imagen del torneo" class="img-fluid" src="{{ asset('storage/' . $torneo->imagen) }}">
+                <img alt="Imagen del torneo" class="img-fluid" src="{{ $torneo->imagen_url }}" width="300px" height="300px">
             @else
-                <img alt="Imagen por defecto" class="img-fluid" src="{{ Torneo::$IMAGE_DEFAULT }}">
+                <img alt="Imagen por defecto" class="img-fluid" src="{{ Torneo::$IMAGE_DEFAULT }}" width="300px" height="300px">
             @endif
-        </dd>
-    </dl>
-
-    <form action="{{ route("torneos.updateImage", $torneo->id) }}" method="post" enctype="multipart/form-data" style="padding-left: 20px">
-        @csrf
-        @method('PATCH')
-        <div class="form-group d-flex justify-content-evenly">
-            <label for="imagen" style="color: coral; font-weight: bold; margin-right: 20px">Nueva imagen:</label>
-            <input accept="image/*" class="form-control-file" id="imagen" name="imagen" required type="file">
-            <small class="text-danger"></small>
+            <form action="{{ route("torneos.updateImage", $torneo->id) }}" method="post" enctype="multipart/form-data" style="padding-left: 20px; margin-top: 40px">
+                @csrf
+                @method('PATCH')
+                <div class="form-group d-flex justify-content-evenly">
+                    <label for="imagen" style="color: #007bff; font-weight: bold; margin-right: 20px">Imagen:</label>
+                    <input accept="image/*" class="form-control-file" id="imagen" name="imagen" required type="file">
+                    <small class="text-danger"></small>
+                </div>
+                <br>
+                <div style="display: flex; justify-content: center">
+                    <button class="btn" type="submit" style="background-color: #007bff; color: white">Actualizar</button>
+                </div>
+            </form>
         </div>
-        <br>
-        <div>
-            <button class="btn" type="submit" style="background-color: coral; color: white">Actualizar</button>
-        </div>
-    </form>
+    </div>
 @endsection

@@ -11,25 +11,25 @@
                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         @foreach($tenistasTop->take(2) as $tenistaTop) @endforeach
                         <h2 style="color: silver">{{ $tenistaTop->ranking }}</h2>
-                        <img src="{{ $tenistaTop->imagen }}" width="100px" height="100px" style="margin: 10px">
+                        <img src="{{ $tenistaTop->imagen_url }}" width="100px" height="100px" style="margin: 10px">
                         <h5>{{ $tenistaTop->nombre }}</h5>
                     </div>
                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         @foreach($tenistasTop->take(1) as $tenistaTop) @endforeach
                         <h1 style="color: gold">{{ $tenistaTop->ranking }}</h1>
-                        <img src="{{ $tenistaTop->imagen }}" width="150px" height="150px" style="margin: 10px">
+                        <img src="{{ $tenistaTop->imagen_url }}" width="150px" height="150px" style="margin: 10px">
                         <h4>{{ $tenistaTop->nombre }}</h4>
                     </div>
                     <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         @foreach($tenistasTop->take(3) as $tenistaTop) @endforeach
                         <h3 style="color: saddlebrown">{{ $tenistaTop->ranking }}</h3>
-                        <img src="{{ $tenistaTop->imagen }}" width="100px" height="100px" style="margin: 10px">
+                        <img src="{{ $tenistaTop->imagen_url }}" width="100px" height="100px" style="margin: 10px">
                         <h6>{{ $tenistaTop->nombre }}</h6>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-3" style="color: white;">
+        <div class="col-3" style="color: white">
             <h4>TOP 10</h4>
             @if($tenistasTop != null && count($tenistasTop) > 0)
                 <table class="table" style="color: white;">
@@ -39,15 +39,19 @@
                         <th class="th-top10">Nombre</th>
                     </tr>
                     </thead>
-                    @foreach($tenistasTop->take(10) as $tenistaTop)
-                        <tbody>
-                        <tr>
-                            <td>{{$tenistaTop -> ranking}}</td>
-                            <td>{{$tenistaTop -> nombre}}</td>
-                        </tr>
-                        </tbody>
-                    @endforeach
                 </table>
+                <div style="overflow: scroll; max-height: 200px; scrollbar-width: none">
+                    <table class="table" style="color: white">
+                        <tbody>
+                        @foreach($tenistasTop->take(10) as $tenistaTop)
+                            <tr>
+                                <td>{{$tenistaTop -> ranking}}</td>
+                                <td>{{$tenistaTop -> nombre}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @else
                 <p class='lead'><em>No se ha encontrado datos de tenistas.</em></p>
             @endif
@@ -69,7 +73,7 @@
             </div>
             <div class="col-2 d-flex justify-content-center align-items-center">
                 @if(Auth::check() && Auth::user()->rol === 'ADMIN')
-                    <a class="btn btn-success" href={{ route('productos.create') }}>Nuevo Producto</a>
+                    <a class="btn btn-success" href={{ route('tenistas.create') }}>Nuevo Tenista</a>
                 @endif
             </div>
         </div>
@@ -91,7 +95,7 @@
                         <td>{{$tenista -> ranking}}</td>
                         <td>
                             @if($tenista->imagen != Tenista::$IMAGE_DEFAULT)
-                                <img alt="Imagen del tenista" height="50" src="{{ $tenista->imagen }}"
+                                <img alt="Imagen del tenista" height="50" src="{{ $tenista->imagen_url }}"
                                      width="50">
                             @else
                                 <img alt="Imagen por defecto" height="50" src="{{ Tenista::$IMAGE_DEFAULT }}"

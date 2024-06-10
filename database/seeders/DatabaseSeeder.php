@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TenistasTableSeeder::class);
         $this->call(TorneosTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
 
         // User::factory(10)->create();
 

@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Torneo extends Model
 {
     use HasFactory;
     use HasUuids;
+    use SoftDeletes;
 
     protected $primaryKey = 'id';
     protected $keyType = 'string';
@@ -57,5 +59,14 @@ class Torneo extends Model
     public function scopeSearch($query, $search)
     {
         return $query->whereRaw('LOWER(nombre) LIKE ?', ["%" . strtolower($search) . "%"]);
+    }
+
+    public function getImagenUrlAttribute()
+    {
+        if (filter_var($this->imagen, FILTER_VALIDATE_URL)) {
+            return $this->imagen;
+        }
+
+        return asset('storage/' . $this->imagen);
     }
 }

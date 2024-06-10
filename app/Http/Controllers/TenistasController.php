@@ -83,7 +83,13 @@ class TenistasController extends Controller
         try {
             $tenista = Tenista::find($id);
             $tenista->update($request->all());
+            $fechaNacimiento = Carbon::parse($tenista->fecha_nacimiento);
+            $hoy = Carbon::now();
+            $edad = $fechaNacimiento->diffInYears($hoy);
+            $tenista->edad = round($edad);
             $tenista->save();
+            $this->actualizarRanking();
+            $this->porcentajesVictoriasDerrotas();
             flash('Tenista actualizado con éxito.')->warning()->important();
             return redirect()->route('tenistas.index');
         }catch (Exception $e){
@@ -144,6 +150,7 @@ class TenistasController extends Controller
                 Storage::delete($tenista->imagen);
             }
             $tenista->delete();
+            $this->actualizarRanking();
             flash('Tenista eliminado con éxito.')->error()->important();
             return redirect()->route('tenistas.index');
         }catch (Exception $e){
@@ -173,7 +180,8 @@ class TenistasController extends Controller
             $totalPartidos = $tenista->victorias + $tenista->derrotas;
             $porcentajeVictorias = ($tenista->victorias / $totalPartidos) * 100;
             $porcentajeDerrotas = 100 - $porcentajeVictorias;
-            $tenista->win_lose = number_format($porcentajeVictorias, 2) . '% / ' . number_format($porcentajeDerrotas, 2) . '%';;
+            $tenista->win_lose = number_format($porcentajeVictorias, 2)
+                . '% / ' . number_format($porcentajeDerrotas, 2) . '%';;
             $tenista->save();
         }
     }
@@ -184,7 +192,7 @@ class TenistasController extends Controller
             throw new NotFoundHttpException('El tenista no existe');
         }
         $pdf = Pdf::loadView('tenistas.pdf', compact('tenista'));
-        return $pdf->stream();
-        //return $pdf->download('ficha_tenista.pdf');
+        //return $pdf->stream();
+        return $pdf->download('ficha_tenista.pdf');
     }
 }

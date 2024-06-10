@@ -21,8 +21,8 @@ class TenistasRequest extends FormRequest
             'reves' => ['required', 'string', 'in:'. implode(',', Tenista::$REVES_VALIDO)],
             'entrenador' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'min:3', 'max:30'],
             'price_money' => ['required', 'numeric', 'min:0.1'],
-            'victorias' => ['required', 'integer', 'min:1'],
-            'derrotas' => ['required', 'integer', 'min:1'],
+            'victorias' => ['required', 'integer', 'min:0'],
+            'derrotas' => ['required', 'integer', 'min:0'],
         ];
     }
 

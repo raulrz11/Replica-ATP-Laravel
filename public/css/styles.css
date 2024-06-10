@@ -1,0 +1,137 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: Rowdies;
+}
+
+.icon-container {
+    width: 3%;
+    color: white;
+    background-color: #051224;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 25px;
+    gap:20px;
+}
+
+.icon-container i {
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/*Tabla*/
+.table{
+    border: 2px solid transparent;
+}
+
+th{
+    color: #007bff;
+    background-color: #051224;
+}
+
+.th-top10{
+    color: #051224;
+    background-color: white;
+}
+
+.tr-hover:hover{
+    border-bottom: 2px solid #051224;
+    box-shadow: 0 20px 20px -20px blue;
+    transition: border-bottom-color 0.4s;
+}
+
+.group {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    max-width: 190px;
+    margin: 20px;
+    margin-right: 50px;
+}
+
+.inputSearch {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: white;
+    color: #0d0c22;
+    transition: .3s ease;
+}
+
+.inputSearch::placeholder {
+    color: #051224;
+}
+
+.inputSearch:focus, inputSearch:hover {
+    outline: none;
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(77, 133, 255, 0.1);
+}
+
+.icon {
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
+}
+
+/*MENU*/
+.nav-link {
+    text-decoration: none;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+.nav-link.active {
+    border-bottom-color: #007bff;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #051224;
+    margin: 15% auto;
+    border: 1px solid white;
+    width: 50%;
+}
+
+.close {
+    width: 5%;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#inscribirTenistaModal:target {
+    display: block;
+}

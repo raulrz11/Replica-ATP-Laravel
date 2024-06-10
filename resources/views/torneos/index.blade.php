@@ -32,7 +32,7 @@
             </div>
             <div class="col-2 d-flex justify-content-center align-items-center">
                 @if(Auth::check() && Auth::user()->rol === 'ADMIN')
-                    <a class="btn btn-success" href={{ route('productos.create') }}>Nuevo Producto</a>
+                    <a class="btn btn-success" href={{ route('torneos.create') }}>Nuevo Torneo</a>
                 @endif
             </div>
         </div>

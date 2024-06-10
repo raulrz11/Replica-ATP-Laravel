@@ -50,8 +50,22 @@ class Tenista extends Model
         return $this->belongsToMany(Torneo::class, 'tenista_torneo', 'tenista_id', 'torneo_secondary_id', 'id', 'secondary_id');
     }
 
+    public function torneosFinalizados()
+    {
+        return $this->belongsToMany(Torneo::class, 'tenista_torneo', 'tenista_id', 'torneo_secondary_id', 'id', 'secondary_id')->withTrashed()->whereNotNull('torneos.deleted_at');
+    }
+
     public function scopeSearch($query, $search)
     {
         return $query->whereRaw('LOWER(nombre) LIKE ?', ["%" . strtolower($search) . "%"]);
+    }
+
+    public function getImagenUrlAttribute()
+    {
+        if (filter_var($this->imagen, FILTER_VALIDATE_URL)) {
+            return $this->imagen;
+        }
+
+        return asset('storage/' . $this->imagen);
     }
 }

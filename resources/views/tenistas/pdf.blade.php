@@ -12,7 +12,45 @@
 </head>
 <body>
 
-<h1>FICHA DEL TENISTA</h1>
+<div>
+    <h1 style="text-align: center">FICHA DEL TENISTA</h1>
+</div>
+<table class="table">
+    <tr>
+        <td>
+            <p><b>Nombre: </b>{{ $tenista->nombre }}</p>
+            <p><b>Pais: </b>{{ $tenista->pais }}</p>
+            <p><b>Fecha de nacimiento: </b>{{ $tenista->fecha_nacimiento }}</p>
+            <p><b>Edad: </b>{{ $tenista->edad }}</p>
+            <p><b>Altura: </b>{{ $tenista->altura }}cm</p>
+            <p><b>Peso: </b>{{ $tenista->peso }}kg</p>
+            <p><b>Fecha de inicio profesional: </b>{{ $tenista->inicio_profesional }}</p>
+            <p><b>Entrenador: </b>{{ $tenista->entrenador }}</p>
+            <p><b>Mano buena: </b>{{ $tenista->mano_buena }}</p>
+            <p><b>Reves: </b>{{ $tenista->reves }}</p>
+            <p><b>Puntos: </b>{{ $tenista->puntos }}</p>
+            <p><b>Price money: </b>{{ $tenista->price_money }}</p>
+        </td>
+        <td>
+            <img src="{{ $tenista->imagen_url }}" width="200px" height="200px" style="margin: 20px">
+            <p><b>Ranking: </b>{{ $tenista->ranking }}</p>
+            <p><b>Best ranking: </b>{{ $tenista->best_ranking }}</p>
+            <p><b>Victorias: </b>{{ $tenista->victorias }}</p>
+            <p><b>Derrotas: </b>{{ $tenista->derrotas }}</p>
+            <p><b>Win/Lose: </b>{{ $tenista->win_lose }}</p>
+        </td>
+    </tr>
+</table>
+<div style="border-top: 2px solid black; padding-top: 20px; margin-top: 20px">
+    <h4>Torneos activos:</h4>
+    @if(!$tenista->torneos->isEmpty())
+        @foreach($tenista->torneos as $torneo)
+            <p>- {{ $torneo->nombre }}</p>
+        @endforeach
+    @else
+        <p class='lead'><em>No esta en ningun torneo.</em></p>
+    @endif
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

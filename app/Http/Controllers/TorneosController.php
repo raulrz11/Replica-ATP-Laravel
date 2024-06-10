@@ -24,7 +24,7 @@ class TorneosController extends Controller
     }
 
     public function index(Request $request){
-        $torneos = Torneo::search($request->search)->orderBy('secondary_id', 'asc')->paginate(2);
+        $torneos = Torneo::search($request->search)->orderBy('secondary_id', 'asc')->paginate(3);
         return view('torneos.index')->with('torneos', $torneos);
     }
 
@@ -162,32 +162,32 @@ class TorneosController extends Controller
         $existingTenista = Tenista::where('nombre', 'ILIKE', $nombreTenista)->first();
 
         if (!$existingTorneo || !$existingTenista){
-            throw new NotFoundHttpException('El torneo o el tenista no existen');
+            throw new NotFoundHttpException('El tenista o el torneo no existen');
         }
 
         if ($existingTorneo->tenistas->contains($existingTenista)){
-            throw new NotFoundHttpException('El tenista ya esta inscrito al toreno');
+            return redirect()->route('torneos.show', $id)
+                ->with('error', 'El tenista ya está inscrito al torneo');
         }
 
         if ($existingTorneo->entradas != 0){
             $existingTenista->torneos()->attach($existingTorneo->secondary_id);
             $existingTorneo->entradas -= 1;
             $existingTorneo->save();
-            return redirect()->route('torneos.index');
+            return redirect()->back();
         }else{
-            throw new NotFoundHttpException('No quedan vacantes');
+            return redirect()->route('torneos.show', $id)
+                ->with('error', 'No quedan vacantes para este torneo');
         }
     }
 
     public function finalizarTorneo($id){
         $existingTorneo = Torneo::find($id);
-        $tenistas = $existingTorneo->tenistas->sortBy('altura');
-
+        $listaGanadores = $existingTorneo->tenistas->sortBy('altura');
         if (!$existingTorneo){
             throw new NotFoundHttpException('El torneo no existe');
         }
-
-        foreach ($tenistas->take(4) as $index => $tenista){
+        foreach ($listaGanadores->take(4) as $index => $tenista){
             $position = $index + 1;
             switch ($existingTorneo->categoria){
                 case 'MASTER_1000':
@@ -203,10 +203,8 @@ class TorneosController extends Controller
                     $tenista->price_money += $existingTorneo->premio / $position;
                     break;
             }
-            $tenista->torneos()->detach($existingTorneo->secondary_id);
             $tenista->save();
         }
-
         $this->tenistasController->actualizarRanking();
         $existingTorneo->delete();
         return redirect()->route('torneos.index');
